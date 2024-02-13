@@ -31,21 +31,21 @@ index = VectorstoreIndexCreator().from_loaders(loaders)
 llm = ChatOpenAI(openai_api_key=OPENAI_API_KEY, 
              temperature=0,
              model_name="gpt-3.5-turbo")
-# # res=index.query_with_sources('what is the pdf about', llm)
-# res=index.query_with_sources('explain how to do QA pdf with source', llm)
-# %%
 
 st.title("ChatGPT-like clone")
 
 def generate_response(input_text):
-    response=index.query_with_sources('explain how to do QA pdf with source', llm)
-    st.info(response)
+    response=index.query_with_sources(input_text+'answer in short sentences, if you do not know answer, I do not know', llm)
+    
+    st.subheader("Answer")
+    st.write(response['answer'].replace('\n', '  \n'))  # Markdown requires double spaces for new lines
+    
+    st.subheader("Source")
+    st.write(response['sources'])
 
 with st.form('my_form'):
     text = st.text_area('Enter text:', 'what is the key to do RAG in llm?')
     submitted = st.form_submit_button('Submit')
-    # if not openai_api_key.startswith('sk-'):
-    #     st.warning('Please enter your OpenAI API key!', icon='⚠')
-    # if submitted and openai_api_key.startswith('sk-'):
-        # generate_response(text)
-    generate_response(text)
+    
+    if submitted:
+        generate_response(text)
