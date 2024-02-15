@@ -31,21 +31,6 @@ def chunk_documents(data):
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
     return text_splitter.split_documents(data)
 
-# # Example usage for a single file - adjust as needed for your use case
-# if loaders:  # Check if there are any loaders
-#     data = load_documents(loaders[0])  # Load document from the first loader
-#     texts = chunk_documents(data)  # Chunk documents
-#     print(f'Now you have {len(texts)} chunks of text from the document.')
-
-#     # Initialize embedding and vector storage
-#     embedding = OpenAIEmbeddings(api_key=OPENAI_API_KEY)  # Ensure to pass the API key if needed
-#     persist_directory = 'db'
-#     vectordb = Chroma.from_documents(documents=texts,
-#                                      embedding=embedding,
-#                                      persist_directory=persist_directory)
-# else:
-#     print("No PDF files found in the specified directory.")
-# Example usage for a single file - adjust as needed for your use case
 if loaders:  # Check if there are any loaders
     data = load_documents(loaders[0])  # Load document from the first loader
     texts = chunk_documents(data)  # Chunk documents
