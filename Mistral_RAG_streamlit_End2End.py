@@ -46,22 +46,18 @@ else:
 # %%
 # LLM and QA Chain setup
 from langchain.schema import LLMResult
-from langchain.callbacks.base import BaseCallbackHandler
 
-class GenerationStatisticsCallback(BaseCallbackHandler):
-    def on_llm_end(self, response: LLMResult, **kwargs) -> None:
-        print(response.generations[0][0].generation_info)
-        
-callback_manager = CallbackManager([StreamingStdOutCallbackHandler(), GenerationStatisticsCallback()])
 
 llm = Ollama(base_url="http://localhost:11434",
              model="mistral",
              verbose=True,
-             callback_manager=callback_manager)
+             )
 # %%
 def generate_response(question):
     prompt_template = """Use the following pieces of context to answer the question at the end. 
 If you don't know the answer, please think rationally and answer from your own knowledge base 
+- based on your answer based on provided documents only. 
+- do NOT answer question out of context.
 
 {context}
 
